@@ -1,0 +1,23 @@
+import random
+import string
+
+def gerar_senha(tamanho: int) -> str:
+    """
+    Gera uma senha aleatória com letras, números e caracteres especiais.
+    
+    Parâmetros:
+    tamanho (int): Quantidade de caracteres da senha.
+    
+    Retorna:
+    str: Senha gerada.
+    """
+    caracteres = string.ascii_letters + string.digits + string.punctuation
+    senha = ''.join(random.choice(caracteres) for _ in range(tamanho))
+    return senha
+
+
+# Interação com o usuário
+quantidade = int(input("Digite a quantidade de caracteres para a senha: "))
+senha_gerada = gerar_senha(quantidade)
+
+print(f"Sua senha aleatória é: {senha_gerada}")
