@@ -1,0 +1,36 @@
+import requests
+
+def gerar_perfil_aleatorio():
+    """
+    Consulta a API Random User Generator e retorna um perfil contendo
+    nome completo, email e país.
+    """
+    url = "https://randomuser.me/api/"
+    try:
+        resposta = requests.get(url)
+    except requests.RequestException as e:
+        return f"Erro ao acessar a API: {e}"
+    if resposta.status_code != 200:
+        return f"Erro na resposta da API: status code {resposta.status_code}"
+    
+    dados = resposta.json()
+    # Extrai os campos necessários do JSON
+    resultado = dados["results"][0]
+    nome = resultado["name"]
+    nome_completo = f"{nome['title']} {nome['first']} {nome['last']}"
+    email = resultado["email"]
+    pais = resultado["location"]["country"]
+    
+    return nome_completo, email, pais
+
+if __name__ == "__main__":
+    perfil = gerar_perfil_aleatorio()
+    if isinstance(perfil, tuple):
+        nome, email, pais = perfil
+        print("Perfil gerado:")
+        print(f" Nome completo: {nome}")
+        print(f" E-mail: {email}")
+        print(f" País: {pais}")
+    else:
+        # Caso seja uma string com erro
+        print(perfil)
